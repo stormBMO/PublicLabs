@@ -1,0 +1,11 @@
+﻿  Source.cpp
+C:\Users\nbk\source\repos\Polynome\Polynome\Pol.h(67,14): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\nbk\source\repos\Polynome\Polynome\Pol.h(76,14): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\nbk\source\repos\Polynome\Polynome\Pol.h(77,15): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\nbk\source\repos\Polynome\Polynome\Pol.h(80,12): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\nbk\source\repos\Polynome\Polynome\Pol.h(84,17): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\nbk\source\repos\Polynome\Polynome\Pol.h(99,13): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\nbk\source\repos\Polynome\Polynome\Source.cpp(23,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\nbk\source\repos\Polynome\Polynome\Source.cpp(74,10): warning C4101: l: неиспользованная локальная переменная
+C:\Users\nbk\source\repos\Polynome\Polynome\Pol.h(108): warning C4715: Pol::transform: значение возвращается не при всех путях выполнения
+  Polynome.vcxproj -> C:\Users\nbk\source\repos\Polynome\Debug\Polynome.exe
