@@ -1,2 +1,2 @@
-# PublicLubs
+# PublicLabs
 Something like "open-source"
