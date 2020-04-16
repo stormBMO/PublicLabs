@@ -24,7 +24,9 @@ bool CVector::operator<(const CVector& b) const {
 }
 
 ostream& operator<<(ostream& os, const CVector& b) {
-    os << b.x << " " << b.y << " " << b.z;
+    os << ((fabs(b.x) < 0.000001) ? 0.0 : b.x)
+        << " " << ((fabs(b.y) < 0.000001) ? 0.0 : b.y)
+        << " " << ((fabs(b.z) < 0.000001) ? 0.0 : b.z);
     return os;
 }
 

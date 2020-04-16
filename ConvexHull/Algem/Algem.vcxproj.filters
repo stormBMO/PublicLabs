@@ -24,6 +24,12 @@
     <ClCompile Include="cvector.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="draw.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="dd.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvector.h">
@@ -32,9 +38,15 @@
     <ClInclude Include="surface.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="draw.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="test1.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

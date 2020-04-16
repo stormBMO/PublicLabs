@@ -77,7 +77,7 @@ ostream& operator<<(ostream& os, Surface& s) {
 	format(s.c.x, 'x', 1);
 	format(s.c.y, 'y', s.c.x == 0);
 	format(s.c.z, 'z', s.c.x == 0 && s.c.y == 0);
-	cout << "<= " << -s.n;
+	cout << "<= " << ((fabs(-s.n) < 0.000001) ? 0.0 : -s.n);
 	return os;
 }
 
