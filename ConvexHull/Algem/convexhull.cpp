@@ -5,6 +5,7 @@
 #include <string>
 #include <set>
 #include <map>
+#include <fstream>
 #include <algorithm>
 #include "cvector.h"
 #include "surface.h"
@@ -20,7 +21,7 @@ vector<CVector> scan_vertices();
 vector<CVector> get_vertices(vector<Surface>& sf, int output_allowed);
 vector<Surface> scan_surfaces();
 vector<Surface> build_convex_hull(vector<CVector>& a, int output_allowed);
-void compose_graph(vector<Surface>& sf, const vector<CVector>& vr);
+map<pair<string, string>, int> compose_graph(vector<Surface>& sf, const vector<CVector>& vr);
 bool detect_collision(vector<CVector>& m1, vector<CVector>& m2);
 bool fits_single(const Surface& s, CVector t);
 bool fits(vector<Surface>& sf, CVector t);
@@ -28,26 +29,33 @@ pos len(const CVector& a);
 Surface compose_surface_equation(CVector a, CVector b, CVector c);
 pair<CVector, bool> get_cross(const Surface& a, const Surface& b, const Surface& c);
 
-
+ifstream d;
 
 int main(int argc, char** args) {
-	char type;
+	char type, type1;
+	vector<Surface> faces;
+	map<pair<string, string>, int> mat1;
+	//cout << args[0] << " " << args[1] << " " << args[2] << " " << endl;
 	if (argc == 3) {
-		freopen(args[1], "r", stdin);
+		d.open(args[1], ios::in);
+		//freopen(args[1], "r", stdin);
+		d >> type;
 		vector<CVector> v1 = scan_polygon();
-		freopen(args[2], "r", stdin);
+		d.close();
+		d.open(args[2], ios::in);
+		//freopen(args[2], "r+", stdin);
+		d >> type1;
 		vector<CVector> v2 = scan_polygon();
+		d.close();
 		if (v1.empty() || v2.empty())
 			return 0;
-		cout << "COLLUSION" << (detect_collision(v1, v2) ? "DETECTED" : "NOT DETECTED") << endl;
+		cout << "COLLUSION" << (detect_collision(v1, v2) ? " DETECTED" : "WAS NOT DETECT") << endl;	
 		return 0;
 	} 
 	if (argc == 2)
-		freopen(args[1], "r", stdin);
+		d.open(args[1], ios::in);
 
-	cin >> type;
-
-	vector<Surface> faces;
+	d >> type;
 
 	if (type == 'V') {
 		vector<CVector> vertices = scan_vertices();
@@ -60,14 +68,6 @@ int main(int argc, char** args) {
 		if (faces.empty())
 			return 0;
 	}
-	else if (type == 'C') {
-		vector<CVector> m1 = scan_polygon();
-		vector<CVector> m2 = scan_polygon();
-		if (m1.empty() || m2.empty())
-			return 0;
-		cout << (detect_collision(m1, m2) ? "YES" : "NO") << endl;
-		return 0;
-	}
 	else {
 		cout << "Unknown operation, aborting..." << endl;
 		return 0;
@@ -75,19 +75,20 @@ int main(int argc, char** args) {
 
 	vector<CVector> vertices = get_vertices(faces, 1);
 
-	compose_graph(faces, vertices);
-
-	draw(faces, vertices, type);
+	mat1 = compose_graph(faces, vertices);
+	vector<CVector> out;
+	out.clear();
+	draw(mat1, vertices);
 
 	return 0;
 }
 
 vector<CVector> scan_polygon() {
 	int n;
-	cin >> n;
+	d >> n;
 	vector<CVector> ans(n);
 	for (int i = 0; i < n; i++) {
-		if (!(cin >> ans[i].x >> ans[i].y >> ans[i].z)) {
+		if (!(d >> ans[i].x >> ans[i].y >> ans[i].z)) {
 			cout << "Smth`s wrong with coords" << endl;
 			ans.clear();
 			return ans;
@@ -108,18 +109,18 @@ bool detect_collision(vector<CVector>& m1, vector<CVector>& m2) {
 		}
 	}
 
-	vector<Surface> faces = build_convex_hull(sum_vector, 0);
-	vector<CVector> vertices = get_vertices(faces, 0);
+	vector<Surface> faces = build_convex_hull(sum_vector, 1);
+	vector<CVector> vertices = get_vertices(faces, 1);
 	CVector zero = CVector(0, 0, 0);
 	return fits(faces, zero);
 }
 
 vector<CVector> scan_vertices() {
 	int n;
-	cin >> n;
+	d >> n;
 	vector<CVector> a(n);
 	for (int i = 0; i < n; i++) {
-		if (!(cin >> a[i].x >> a[i].y >> a[i].z)){
+		if (!(d >> a[i].x >> a[i].y >> a[i].z)){
 			cout << "Smth`s wrong with coords" << endl;
 			a.clear();
 			return a;
@@ -197,11 +198,11 @@ pos len(const CVector& a) {
 
 vector<Surface> scan_surfaces() {
 	int n;
-	cin >> n;
+	d >> n;
 	vector<Surface> a;
 	for (int i = 0; i < n; i++) {
 		Surface s;
-		if (!(cin >> s.c.x >> s.c.y >> s.c.z >> s.n)) {
+		if (!(d >> s.c.x >> s.c.y >> s.c.z >> s.n)) {
 			cout << "Smth`s wrong with coords" << endl;
 			a.clear();
 			return a;
@@ -272,7 +273,7 @@ vector<CVector> get_vertices(vector<Surface>& sf, int output_allowed) {
 	return ans;
 }
 
-void compose_graph(vector<Surface>& sf,const vector<CVector>& vr) {
+map<pair<string, string>, int> compose_graph(vector<Surface>& sf,const vector<CVector>& vr) {
 	map<pair<string, string>, int> graph;
 	for (int i = 0; i < sf.size(); i++) {
 		set<CVector> t = sf[i].edge_points;
@@ -352,6 +353,7 @@ void compose_graph(vector<Surface>& sf,const vector<CVector>& vr) {
 			cout << s.GetType() << " ";
 		cout << endl << endl;
 	}
+	return graph;
 }
 
 double det(vector<Surface> const& t, int which) {

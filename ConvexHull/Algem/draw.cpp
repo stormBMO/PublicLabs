@@ -5,53 +5,59 @@
 
 using namespace sf;
 
-int draw(const vector<Surface>& faces, const vector<CVector>& veticals, const char& type) {
-	RenderWindow window(VideoMode(900, 900), "ConvexHull");
-	std::vector<Text> letters;
+int draw(const map<pair<string, string>, int>& mat1, const vector<CVector>& vertices1 ) {
+		RenderWindow window(VideoMode(900, 900), "ConvexHull");
 
-	Font f;
-	f.loadFromFile("CyrilicOld.TTF");
+		VertexArray cXYZ(Lines, 6);
+		cXYZ[0].position = Vector2f(450, 500);
+		cXYZ[1].position = Vector2f(450, 100);
+		cXYZ[2].position = Vector2f(400, 450);
+		cXYZ[3].position = Vector2f(800, 450);
+		cXYZ[4].position = Vector2f(480, 420);
+		cXYZ[5].position = Vector2f(200, 700);
 
-	letters.resize(3);
+		VertexArray cXYZarrows(Lines, 12);
 
-	letters[0].setString("X");
-	letters[1].setString("Y");
-	letters[2].setString("Z");
+		cXYZarrows[0].position = Vector2f(450, 100);
+		cXYZarrows[1].position = Vector2f(460, 115);
+		cXYZarrows[2].position = Vector2f(450, 100);
+		cXYZarrows[3].position = Vector2f(440, 115);
+		cXYZarrows[4].position = Vector2f(800, 450);
+		cXYZarrows[5].position = Vector2f(785, 440);
+		cXYZarrows[6].position = Vector2f(800, 450);
+		cXYZarrows[7].position = Vector2f(785, 460);
+		cXYZarrows[8].position = Vector2f(200, 700);
+		cXYZarrows[9].position = Vector2f(220, 700);
+		cXYZarrows[10].position = Vector2f(200, 700);
+		cXYZarrows[11].position = Vector2f(204, 680);
 
+		VertexArray row(Lines, 2);
+		row[0].color = Color::Yellow;
+		row[1].color = Color::Yellow;
 
-	letters[0].setPosition(700, 400);
-	letters[1].setPosition(200, 600);
-	letters[2].setPosition(400, 100);
+		while (window.isOpen()) {
+			Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == Event::Closed)
+					window.close();
+			}
 
-	for (auto s : letters) {
-		s.setCharacterSize(16);
-		s.setFillColor(Color::White);
-		s.setFont(f);
-	}
-
-
-	VertexArray cXYZ(Lines, 6);
-	cXYZ[0].position = Vector2f(450, 450);
-	cXYZ[1].position = Vector2f(450, 100);
-	cXYZ[2].position = Vector2f(450, 450);
-	cXYZ[3].position = Vector2f(800, 450);
-	cXYZ[4].position = Vector2f(450, 450);
-	cXYZ[5].position = Vector2f(200, 700);
-
-	while (window.isOpen()) {
-		Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == Event::Closed)
-				window.close();
+			window.clear();
+			for (int i = 0; i < vertices1.size(); ++i)
+				for (int j = 0;i != j,  j < vertices1.size(); ++j) {
+					row[0].position.x = 450 + vertices1[i].x * 100 - 40 * vertices1[i].y;
+					row[0].position.y = 450 - vertices1[i].z * 100 + 40 * vertices1[i].y;
+					if ((mat1.count(make_pair(vertices1[i].GetType(), vertices1[j].GetType())) ? 1 : 0)) {
+						row[1].position.x = 450 + vertices1[j].x * 100 - 40 * vertices1[j].y;
+						row[1].position.y = 450 - vertices1[j].z * 100 + 40 * vertices1[j].y;
+						window.draw(row);
+					}
+				}
+			window.draw(cXYZ);
+			window.draw(cXYZarrows);
+			window.display();
 		}
-		window.clear();
-		//window.clear(Color::White);
-		for (auto s : letters)
-			window.draw(s);
-		window.draw(cXYZ);
-		window.display();
-	}
 
-	return 0;
+		return 0;
 }

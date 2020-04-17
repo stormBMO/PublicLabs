@@ -27,7 +27,7 @@
     <ClCompile Include="draw.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dd.cpp">
+    <ClCompile Include="d.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
