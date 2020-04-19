@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClCompile Include="convexhull.cpp" />
     <ClCompile Include="cvector.cpp" />
-    <ClCompile Include="d.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="surface.cpp" />
   </ItemGroup>

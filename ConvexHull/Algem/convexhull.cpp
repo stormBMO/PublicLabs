@@ -35,12 +35,15 @@ int main(int argc, char** args) {
 	char type, type1;
 	vector<Surface> faces;
 	map<pair<string, string>, int> mat1;
+	//cout << args[0] << " " << args[1] << " " << args[2] << " " << endl;
 	if (argc == 3) {
 		d.open(args[1], ios::in);
+		//freopen(args[1], "r", stdin);
 		d >> type;
 		vector<CVector> v1 = scan_polygon();
 		d.close();
 		d.open(args[2], ios::in);
+		//freopen(args[2], "r+", stdin);
 		d >> type1;
 		vector<CVector> v2 = scan_polygon();
 		d.close();
